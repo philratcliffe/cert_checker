@@ -1,6 +1,7 @@
 import sys
 import socket
 import ssl
+from x509 import X509
 
 from pprint import pprint
 
@@ -40,13 +41,17 @@ def main(argv):
             cert = ssl_sock.getpeercert()
             der = ssl_sock.getpeercert(binary_form=True)
             pem = ssl.DER_cert_to_PEM_cert(der)
+            x509_cert = X509.from_pem(pem)
+
+            print ("\nSubject: {}".format(x509_cert.subject_as_str))
+            print ("\nCN: {}".format(x509_cert.cn.decode('utf-8')))
+            print ("\nPubKeyAlg: {}\n".format(x509_cert.get_pubkey_alg()))
 
             try:
                 ssl.match_hostname(cert, hostname)
             except ssl.CertificateError as ce:
                 print ("Certificate error {}\n".format(str(ce)))
 
-            print(pem)
             pprint(cert)
 
 

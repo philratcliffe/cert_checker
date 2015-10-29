@@ -43,12 +43,14 @@ def main(argv):
             pem = ssl.DER_cert_to_PEM_cert(der)
             x509_cert = X509.from_pem(pem)
 
-            print ("\nSubject: {}".format(x509_cert.subject_as_str))
-            print ("CN: {}".format(x509_cert.cn.decode('utf-8')))
-            print ("PubKeyAlg: {}".format(x509_cert.get_pubkey_alg()))
-            print ("NotAfter: {} GMT".format(x509_cert.get_not_after_str()))
-            print ("Expires in: {} days".format(x509_cert.get_days_to_expiry()))
-            print ("HasExpired: {}\n".format(x509_cert.has_expired()))
+            print("PEM encoded certificate:")
+            print(pem)
+            print ("\n\tSubject: \t{}".format(x509_cert.subject_as_str))
+            print ("\tCN: \t\t{}".format(x509_cert.cn.decode('utf-8')))
+            print ("\tPubKeyAlg: \t{}".format(x509_cert.get_pubkey_alg()))
+            print ("\tNotAfter: \t{} GMT".format(x509_cert.get_not_after_str()))
+            print ("\tHasExpired: \t{}".format("Yes" if x509_cert.has_expired() else "No"))
+            print ("\tExpires in: \t{} days\n".format(x509_cert.get_days_to_expiry()))
 
             try:
                 ssl.match_hostname(cert, hostname)

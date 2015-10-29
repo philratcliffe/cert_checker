@@ -1,5 +1,6 @@
 import OpenSSL
 import utils
+import datetime
 
 
 class X509:
@@ -24,6 +25,25 @@ class X509:
             OpenSSL.crypto.FILETYPE_ASN1, binary_cert)
         return cls(x509)
 
+    def get_not_after_str(self):
+        not_after = datetime.datetime.strptime(
+            self.x509.get_notAfter().decode('utf-8'),
+            "%Y%m%d%H%M%SZ"
+        )
+        return not_after.strftime('%d, %b %Y %H:%M:%S')
+
+    def has_expired(self):
+        """Returns True if certificate expired and False otherwise"""
+        return self.x509.has_expired()
+
+    def get_days_to_expiry(self):
+        not_after = datetime.datetime.strptime(
+            self.x509.get_notAfter().decode('utf-8'),
+            "%Y%m%d%H%M%SZ"
+        )
+        expire_in = not_after - datetime.datetime.now()
+        return expire_in.days
+
     def get_pubkey_alg(self):
         """Get the public key's algorithm"""
 
@@ -36,10 +56,10 @@ class X509:
         # OpenSSL does not yet have a type for EC
         # so google certs, for example, will be unknown
         types = {
-            OpenSSL.crypto.TYPE_RSA: b"RSA",
-            OpenSSL.crypto.TYPE_DSA: b"DSA",
+            OpenSSL.crypto.TYPE_RSA: "RSA",
+            OpenSSL.crypto.TYPE_DSA: "DSA",
         }
-        return types.get(type, b"UNKNOWN")
+        return types.get(type, "UNKNOWN")
 
     @property
     def cn(self):

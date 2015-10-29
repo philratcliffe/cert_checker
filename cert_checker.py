@@ -44,8 +44,11 @@ def main(argv):
             x509_cert = X509.from_pem(pem)
 
             print ("\nSubject: {}".format(x509_cert.subject_as_str))
-            print ("\nCN: {}".format(x509_cert.cn.decode('utf-8')))
-            print ("\nPubKeyAlg: {}\n".format(x509_cert.get_pubkey_alg()))
+            print ("CN: {}".format(x509_cert.cn.decode('utf-8')))
+            print ("PubKeyAlg: {}".format(x509_cert.get_pubkey_alg()))
+            print ("NotAfter: {} GMT".format(x509_cert.get_not_after_str()))
+            print ("Expires in: {} days".format(x509_cert.get_days_to_expiry()))
+            print ("HasExpired: {}\n".format(x509_cert.has_expired()))
 
             try:
                 ssl.match_hostname(cert, hostname)

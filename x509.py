@@ -44,6 +44,10 @@ class X509:
         expire_in = not_after - datetime.datetime.now()
         return expire_in.days
 
+    def get_signature_alg(self):
+        """Returns the algorithm used to sign the certificate"""
+        return self.x509.get_signature_algorithm().decode('utf-8')
+
     def get_pubkey_alg(self):
         """Get the public key's algorithm"""
 

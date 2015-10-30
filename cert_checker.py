@@ -47,6 +47,7 @@ def main(argv):
             print(pem)
             print ("\n\tSubject: \t{}".format(x509_cert.subject_as_str))
             print ("\tCN: \t\t{}".format(x509_cert.cn.decode('utf-8')))
+            print ("\tSignature Alg: \t{}".format(x509_cert.get_signature_alg()))
             print ("\tPubKeyAlg: \t{}".format(x509_cert.get_pubkey_alg()))
             print ("\tNotAfter: \t{} GMT".format(x509_cert.get_not_after_str()))
             print ("\tHasExpired: \t{}".format("Yes" if x509_cert.has_expired() else "No"))

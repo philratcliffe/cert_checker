@@ -48,6 +48,10 @@ class X509:
         """Returns the algorithm used to sign the certificate"""
         return self.x509.get_signature_algorithm().decode('utf-8')
 
+    def get_key_size(self):
+        """Returns the size of the key"""
+        return self.x509.get_pubkey().bits()
+
     def get_pubkey_alg(self):
         """Get the public key's algorithm"""
 

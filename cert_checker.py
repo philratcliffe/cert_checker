@@ -49,7 +49,7 @@ def main(argv):
             print ("\tCN: \t\t{}".format(x509_cert.cn.decode('utf-8')))
             print ("\tSignature Alg: \t{}".format(x509_cert.get_signature_alg()))
             print ("\tPubKeyAlg: \t{}".format(x509_cert.get_pubkey_alg()))
-            print ("\tKey Size: \t{}".format(x509_cert.get_key_size()))
+            print ("\tKey Size: \t{} bits".format(x509_cert.get_key_size()))
             print ("\tNotAfter: \t{} GMT".format(x509_cert.get_not_after_str()))
             print ("\tHasExpired: \t{}".format("Yes" if x509_cert.has_expired() else "No"))
             print ("\tExpires in: \t{} days\n".format(x509_cert.get_days_to_expiry()))

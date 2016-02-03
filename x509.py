@@ -115,6 +115,7 @@ class X509:
 
     @property
     def subject_as_str(self):
+        """Returns the subject encoded as a single string"""
         s = utils.stringify_components(self.subject)
         return utils.make_string_raw(s)
 

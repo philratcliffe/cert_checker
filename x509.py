@@ -19,7 +19,7 @@ class X509:
 
     @classmethod
     def from_binary(cls, binary_cert):
-        """Initialise CSR from a binary CSR"""
+        """Initialise CSR from a binary/DER CSR"""
 
         x509 = OpenSSL.crypto.load_certificate(
             OpenSSL.crypto.FILETYPE_ASN1, binary_cert)

@@ -26,6 +26,9 @@ def create_context(sock, certfile=None):
 def main(argv):
     """Handles command line arguments and ties everything together"""
 
+    if len(argv) < 2:
+        sys.exit('Usage: %s hostname [port]' % sys.argv[0])
+
     hostname = argv[1]
     port = int(argv[2]) if len(argv) > 2 else 443
     addr = (hostname, port)

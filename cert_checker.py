@@ -13,11 +13,13 @@ def create_context(sock, certfile=None):
     # We want to get the cert, so let's be flexible on the protocol.
     context = ssl.SSLContext(ssl.PROTOCOL_SSLv23)
 
+    # We want a cert from the server.
     context.verify_mode = ssl.CERT_REQUIRED
 
-    # Note that this can fail silently
+    # Tries to load a set of default CA certs. Can fail silently.
     context.set_default_verify_paths()
 
+    # If we are using client SSL authentication.
     if certfile:
         context.load_cert_chain(certfile)
 

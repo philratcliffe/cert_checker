@@ -1,4 +1,4 @@
-#!/usr/bin/python3.5
+!/usr/bin/python3.5
 
 """
 Get SSL certs for the list of hosts provided.
@@ -60,7 +60,10 @@ def do_work(hostname):
                 pem = ssl.DER_cert_to_PEM_cert(der)
                 x509_cert = X509.from_pem(pem)
                 with lock:
-                    print ("\nSubject: {}".format(x509_cert.subject_as_str))
+                    print ("Hostname:{}, CN:{}, Expires in: {}".format(
+                                hostname,
+                                x509_cert.cn.decode('utf-8'),
+                                x509_cert.get_days_to_expiry()))
     except:
         print("error getting cert for ", hostname)
 
@@ -92,8 +95,6 @@ start = time.perf_counter()
 #
 for hostname in hostnames:
     q.put(hostname)
-    with lock:
-        print ("Queue size ", q.qsize())
 
 q.join() # Block until all items in the queue processed.
 

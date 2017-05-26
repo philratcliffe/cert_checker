@@ -79,10 +79,10 @@ q = Queue()
 
 #
 # Kick off some threads to run the worker function.
-# for i in range(4):
-     t = threading.Thread(target=worker)
-     t.daemon = True
-     t.start()
+for i in range(4):
+    t = threading.Thread(target=worker)
+    t.daemon = True
+    t.start()
 
 hostnames = get_hostnames_list('hosts')
 start = time.perf_counter()

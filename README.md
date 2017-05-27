@@ -1,3 +1,4 @@
 # cert_checker
-Retrive a certificate over the network and carry out some checks
+Retrieves SSL certificates over the network and prints out certificate information.
+
 Uses Python3

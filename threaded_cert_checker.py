@@ -7,14 +7,14 @@ Get SSL certs for the list of hosts provided.
 """
 
 
-import sys
 import socket
 import ssl
+import sys
 import threading
 import time
 
-from queue import Queue
 from pprint import pprint
+from queue import Queue
 
 from x509 import X509
 
@@ -23,8 +23,12 @@ lock = threading.Lock()
 def create_context(sock, certfile=None):
     """Create an SSL context"""
 
-    # We want to get the cert, so let's be flexible on the protocol.
-    context = ssl.SSLContext(ssl.PROTOCOL_SSLv23)
+    #
+    # Selects the highest protocol version that both the client and
+    # server support. Despite the name, this option can select both
+    # “SSL” and “TLS” protocols.
+    #
+    context = ssl.SSLContext(ssl.PROTOCOL_TLS)
 
     # We want a cert from the server.
     context.verify_mode = ssl.CERT_REQUIRED

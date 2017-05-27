@@ -1,4 +1,4 @@
-!/usr/bin/python3.5
+#!/usr/bin/python3.5
 
 """
 Get SSL certs for the list of hosts provided.
@@ -24,11 +24,11 @@ def create_context(sock, certfile=None):
     """Create an SSL context"""
 
     #
-    # Selects the highest protocol version that both the client and
-    # server support. Despite the name, this option can select both
-    # “SSL” and “TLS” protocols.
+    # With the current verstion of the ssl lib can't use
+    # PROTOCOL_TLS so using this as provides most interoperability
+    # when connectiong to the server.
     #
-    context = ssl.SSLContext(ssl.PROTOCOL_TLS)
+    context = ssl.SSLContext(ssl.PROTOCOL_SSLv23)
 
     # We want a cert from the server.
     context.verify_mode = ssl.CERT_REQUIRED
@@ -68,8 +68,11 @@ def do_work(hostname):
                                 hostname,
                                 x509_cert.cn.decode('utf-8'),
                                 x509_cert.get_days_to_expiry()))
-    except:
-        print("error getting cert for ", hostname)
+    except socket.gaierror as gaie:
+        print("Address-related error connecting to", hostname, gaie)
+    except socket.error as se:
+        print("Connection error", hostname, se)
+
 
 def worker():
     """Take the jobs from the queue and process them."""

@@ -20,6 +20,7 @@ from x509 import X509
 
 lock = threading.Lock()
 
+
 def create_context(sock, certfile=None):
     """Create an SSL context"""
 
@@ -41,6 +42,7 @@ def create_context(sock, certfile=None):
         context.load_cert_chain(certfile)
 
     return context
+
 
 def do_work(hostname):
     """Connect to the hostname provided, get the cert, and print out some
@@ -65,9 +67,9 @@ def do_work(hostname):
                 x509_cert = X509.from_pem(pem)
                 with lock:
                     print ("Hostname:{}, CN:{}, Expires in: {}".format(
-                                hostname,
-                                x509_cert.cn.decode('utf-8'),
-                                x509_cert.get_days_to_expiry()))
+                        hostname,
+                        x509_cert.cn.decode('utf-8'),
+                        x509_cert.get_days_to_expiry()))
     except socket.gaierror as gaie:
         print("Address-related error connecting to", hostname, gaie)
     except socket.error as se:
@@ -81,14 +83,17 @@ def worker():
         do_work(item)
         q.task_done()
 
+
 def get_hostnames_list(filename):
     """Read the hostsnames from a file and return in a list."""
     return open(filename).read().splitlines()
+
 
 q = Queue()
 
 #
 # Kick off some threads to run the worker function.
+#
 for i in range(4):
     t = threading.Thread(target=worker)
     t.daemon = True
@@ -103,7 +108,6 @@ start = time.perf_counter()
 for hostname in hostnames:
     q.put(hostname)
 
-q.join() # Block until all items in the queue processed.
+q.join()  # Block until all items in the queue processed.
 
-print('time:',time.perf_counter() - start)
-
+print('time:', time.perf_counter() - start)

@@ -21,7 +21,7 @@ from x509 import X509
 lock = threading.Lock()
 
 
-def create_context(sock, certfile=None):
+def create_context(sock, verify=True, certfile=None):
     """Create an SSL context"""
 
     #
@@ -31,8 +31,15 @@ def create_context(sock, certfile=None):
     #
     context = ssl.SSLContext(ssl.PROTOCOL_SSLv23)
 
-    # We want a cert from the server.
-    context.verify_mode = ssl.CERT_REQUIRED
+    if verify:
+        # Try to verify the server cert to a trust anchor and fail if can't.
+        context.verify_mode = ssl.CERT_REQUIRED
+    else:
+        #
+        # Don't try to verify the server cert. This is the better option if
+        # you're only interested in getting the cert and printing its details.
+        #
+        context.verify_mode = ssl.CERT_NONE
 
     # Tries to load a set of default CA certs. Can fail silently.
     context.set_default_verify_paths()
@@ -73,7 +80,7 @@ def do_work(hostname):
     except socket.gaierror as gaie:
         print("Address-related error connecting to", hostname, gaie)
     except socket.error as se:
-        print("Connection error", hostname, se)
+        print("Connection related error", hostname, se)
 
 
 def worker():

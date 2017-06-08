@@ -6,7 +6,6 @@ Get SSL certs for the list of hosts provided.
 
 """
 
-
 import socket
 import ssl
 import sys
@@ -55,7 +54,6 @@ def do_work(hostname):
     """Connect to the hostname provided, get the cert, and print out some
     cert info.
     """
-
     addr = (hostname, 443)
 
     try:
@@ -72,22 +70,25 @@ def do_work(hostname):
                 der = ssl_sock.getpeercert(binary_form=True)
                 pem = ssl.DER_cert_to_PEM_cert(der)
                 x509_cert = X509.from_pem(pem)
-                with lock:
-                    print ("Hostname:{}, CN:{}, Expires in: {} days".format(
-                        hostname,
-                        x509_cert.cn.decode('utf-8'),
-                        x509_cert.get_days_to_expiry()))
+                return hostname, x509_cert
     except socket.gaierror as gaie:
         print("Address-related error connecting to", hostname, gaie)
     except socket.error as se:
         print("Connection related error", hostname, se)
 
 
+
 def worker():
     """Take the jobs from the queue and process them."""
     while True:
         item = q.get()
-        do_work(item)
+        hostname, x509_cert = do_work(item)
+        with lock:
+            if x509_cert:
+                print ("Hostname:{}, CN:{}, Expires in: {} days".format(
+                    hostname,
+                    x509_cert.cn.decode('utf-8'),
+                    x509_cert.get_days_to_expiry()))
         q.task_done()
 
 

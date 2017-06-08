@@ -25,11 +25,10 @@ class X509:
             OpenSSL.crypto.FILETYPE_ASN1, binary_cert)
         return cls(x509)
 
-
     def to_openssl(self):
-        text = OpenSSL.crypto.dump_certificate(\
-                OpenSSL.crypto.FILETYPE_TEXT, \
-               self.x509)
+        text = OpenSSL.crypto.dump_certificate(
+            OpenSSL.crypto.FILETYPE_TEXT,
+            self.x509)
         return text
 
     def get_not_after_str(self):
@@ -80,7 +79,7 @@ class X509:
         try:
             pk = self.x509.get_pubkey()
             type = pk.type()
-        except:
+        except BaseException:
             return "ERROR"
 
         # PyOpenSSL does not yet have a type for EC

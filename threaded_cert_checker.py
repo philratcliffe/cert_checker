@@ -73,10 +73,13 @@ def do_work(hostname):
                 pem = ssl.DER_cert_to_PEM_cert(der)
                 x509_cert = X509.from_pem(pem)
                 with lock:
-                    print ("Hostname:{}, CN:{}, Expires in: {} days".format(
+                    msg = "Hostname:{}, CN:{}, Expires in: {} days".format(
                         hostname,
                         x509_cert.cn.decode('utf-8'),
-                        x509_cert.get_days_to_expiry()))
+                        x509_cert.get_days_to_expiry())
+                    print(msg)
+                    with open('scan_resuls', 'a') as f:
+                        f.write(msg + "\n")
     except socket.gaierror as gaie:
         print("Address-related error connecting to", hostname, gaie)
     except socket.error as se:

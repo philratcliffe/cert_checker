@@ -78,7 +78,7 @@ def do_work(hostname):
                         x509_cert.cn.decode('utf-8'),
                         x509_cert.get_days_to_expiry())
                     print(msg)
-                    with open('scan_resuls', 'a') as f:
+                    with open('scan_results', 'a') as f:
                         f.write(msg + "\n")
     except socket.gaierror as gaie:
         print("Address-related error connecting to", hostname, gaie)

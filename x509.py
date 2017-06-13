@@ -31,6 +31,14 @@ class X509:
             self.x509)
         return text
 
+
+    def get_not_after_short_str(self):
+        not_after = datetime.datetime.strptime(
+            self.x509.get_notAfter().decode('utf-8'),
+            "%Y%m%d%H%M%SZ"
+        )
+        return not_after.strftime('%d %b %Y')
+
     def get_not_after_str(self):
         not_after = datetime.datetime.strptime(
             self.x509.get_notAfter().decode('utf-8'),

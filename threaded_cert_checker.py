@@ -76,7 +76,7 @@ def do_work(hostname):
                     msg = "Hostname:{}, CN:{}, Expires: {}, Expires in: {} days".format(
                         hostname,
                         x509_cert.cn.decode('utf-8'),
-                        x509_cert.get_not_after_str(),
+                        x509_cert.get_not_after_short_str(),
                         x509_cert.get_days_to_expiry())
                     print(msg)
                     with open('scan_results', 'a') as f:

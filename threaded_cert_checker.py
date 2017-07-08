@@ -51,12 +51,12 @@ def create_context(sock, verify=True, certfile=None):
     return context
 
 
-def do_work(hostname):
+def do_work(hostname, port=443):
     """Connect to the hostname provided, get the cert, and print out some
     cert info.
     """
 
-    addr = (hostname, 443)
+    addr = (hostname, port)
 
     try:
         with socket.create_connection(addr) as s:

@@ -121,7 +121,7 @@ for hostname in hostnames:
 
 q.join()  # Block until all items in the queue processed.
 
-msg = "time:{} ".format(time.perf_counter() - start)
+msg = "time:{:.2f} ".format(time.perf_counter() - start)
 with open('scan_results', 'a') as f:
                         f.write(msg + "\n")
 print(msg)

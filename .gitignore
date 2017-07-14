@@ -1,5 +1,6 @@
 *.py[cod]
 __pycache__
 hosts
+hosts-
 serverlist.txt
 scan_results

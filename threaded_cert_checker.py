@@ -7,6 +7,7 @@ Get SSL certs for the list of hosts provided.
 """
 
 
+import logging
 import socket
 import ssl
 import sys
@@ -99,7 +100,13 @@ def get_hostnames_list(filename):
     """Read the hostsnames from a file and return in a list."""
     return open(filename).read().splitlines()
 
-
+logname="certchecker.log"
+logging.basicConfig(filename=logname,
+                            filemode='a',
+                            format='%(asctime)s,%(msecs)d %(name)s %(levelname)s %(message)s',
+                            datefmt='%H:%M:%S',
+                            level=logging.DEBUG)
+logging.info("starting")
 q = Queue()
 
 #

@@ -82,6 +82,7 @@ def do_work(hostname, port=443):
                     print(msg)
                     with open('scan_results', 'a') as f:
                         f.write(msg + "\n")
+                    logging.debug(msg)
     except socket.gaierror as gaie:
         print("Address-related error connecting to", hostname, gaie)
     except socket.error as se:
@@ -103,7 +104,7 @@ def get_hostnames_list(filename):
 logname="certchecker.log"
 logging.basicConfig(filename=logname,
                             filemode='a',
-                            format='%(asctime)s,%(msecs)d %(name)s %(levelname)s %(message)s',
+                            format='%(asctime)s,%(msecs)d %(name)s %(levelname)s %(thread)d %(message)s',
                             datefmt='%H:%M:%S',
                             level=logging.DEBUG)
 logging.info("starting")

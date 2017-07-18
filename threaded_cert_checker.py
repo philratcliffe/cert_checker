@@ -74,15 +74,17 @@ def do_work(hostname, port=443):
                 pem = ssl.DER_cert_to_PEM_cert(der)
                 x509_cert = X509.from_pem(pem)
                 with lock:
+                    logging.debug("Entered locked area")
                     msg = "Hostname:{}, CN:{}, Expires: {} ({} days)".format(
                         hostname,
                         x509_cert.cn.decode('utf-8'),
                         x509_cert.get_not_after_short_str(),
                         x509_cert.get_days_to_expiry())
                     print(msg)
+                    logging.debug(msg)
                     with open('scan_results', 'a') as f:
                         f.write(msg + "\n")
-                    logging.debug(msg)
+                    logging.debug("About to leave locked area")
     except socket.gaierror as gaie:
         print("Address-related error connecting to", hostname, gaie)
     except socket.error as se:
@@ -104,7 +106,7 @@ def get_hostnames_list(filename):
 logname="certchecker.log"
 logging.basicConfig(filename=logname,
                             filemode='a',
-                            format='%(asctime)s,%(msecs)d %(name)s %(levelname)s %(thread)d %(message)s',
+                            format='%(asctime)s,%(msecs)d %(levelname)s %(threadName)s %(message)s',
                             datefmt='%H:%M:%S',
                             level=logging.DEBUG)
 logging.info("starting")

@@ -88,7 +88,9 @@ def do_work(hostname, port=443):
     except socket.gaierror as gaie:
         print("Address-related error connecting to", hostname, gaie)
     except socket.error as se:
-        print("Connection related error", hostname, se)
+        msg = "Connection related error {} {}".format(hostname, se)
+        print(msg)
+        logging.error(msg)
 
 
 def worker():

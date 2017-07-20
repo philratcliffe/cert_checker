@@ -111,7 +111,7 @@ logging.basicConfig(filename=logname,
                             format='%(asctime)s,%(msecs)d %(levelname)s %(threadName)s %(message)s',
                             datefmt='%H:%M:%S',
                             level=logging.DEBUG)
-logging.info("starting")
+logging.info("certchecker is starting")
 q = Queue()
 
 #
@@ -133,7 +133,8 @@ for hostname in hostnames:
 
 q.join()  # Block until all items in the queue processed.
 
-msg = "time: {:.2f} seconds".format(time.perf_counter() - start)
+msg = "time taken: {:.2f} seconds".format(time.perf_counter() - start)
 with open('scan_results', 'a') as f:
                         f.write(msg + "\n")
 print(msg)
+logging.info("certchecker is finishing")
